@@ -1,0 +1,12 @@
+78098b89c88a74ebe8c20117b8754620
+::res://::1795374756
+main.tscn::PackedScene::-1::1795374386::0::1::::<><><>0<>0<><>::res://scripts/main.gd
+mcp_interaction_server.gd::GDScript::1133919839299003376::1795277269::0::1::::<>Node<><>0<>0<><>::
+::res://models/::1795374707
+cash_stack.glb::PackedScene::6547887713323547786::1795374693::1795374757::1::::<><><>0<>0<>2d5eadd1d9620dc554d3d1886749f730<>res://.godot/imported/cash_stack.glb-524f17b0353890d15b2dec0f82309ef6.scn::
+high_gate.glb::PackedScene::2554556374845988172::1795374707::1795374757::1::::<><><>0<>0<>aba8004dc9b00b34d062e9befc3a0d04<>res://.godot/imported/high_gate.glb-1920fb88509665025280941ccf63444b.scn::
+low_barrier.glb::PackedScene::1065342223083088086::1795374693::1795374757::1::::<><><>0<>0<>2eb95658ab9c834ca61bc6257917a6ff<>res://.godot/imported/low_barrier.glb-d33c7783dce266a0eda4b347f4a71d2b.scn::
+robber.glb::PackedScene::6692250482995965269::1795374693::1795374757::1::::<><><>0<>0<>032b7ac4d88cbf13257cf4228011a9c6<>res://.godot/imported/robber.glb-39ec057a3cd9c660a6b372cbd57b5c89.scn::
+::res://scripts/::1795374445
+main.gd::GDScript::5785944998576355957::1795374737::0::1::::<>Node3D<><>0<>0<><>::
+runner_player.gd::GDScript::149902502944817840::1795374737::0::1::::<>CharacterBody3D<><>0<>0<><>::
