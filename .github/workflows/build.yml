@@ -9,29 +9,20 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
-      - uses: android-actions/setup-android@v3
       - name: Setup Godot
         run: |
           wget -q https://://github.com/Godot_v4.4-stable_linux.x86_64.zip
           unzip -q Godot_v4.4-stable_linux.x86_64.zip
-          mv Godot_v4.4-stable_linux.x86_64 /usr/local/bin/godot
+          sudo mv Godot_v4.4-stable_linux.x86_64 /usr/local/bin/godot
           mkdir -p ~/.local/share/godot/export_templates/4.4.stable
           wget -q https://://github.com/Godot_v4.4-stable_export_templates.tpz
           unzip -q Godot_v4.4-stable_export_templates.tpz
           mv templates/* ~/.local/share/godot/export_templates/4.4.stable/
       - name: Configure Android SDK & Keystore
         run: |
+          mkdir -p ~/.android ~/.config/godot
           keytool -keyalg RSA -genkeypair -alias androiddebugkey -keypass android -keystore ~/.android/debug.keystore -storepass android -dname "CN=Android Debug,O=Android,C=US" -validity 9999
-          mkdir -p ~/.config/godot
-          cat <<EOF > ~/.config/godot/editor_settings-4.4.tres
-          [gd_resource type="EditorSettings" format=3]
-          [resource]
-          export/android/android_sdk_path = ""
-          export/android/java_sdk_path = ""
-          export/android/debug_keystore = "C:\Users\XxX/.android/debug.keystore"
-          export/android/debug_keystore_user = "androiddebugkey"
-          export/android/debug_keystore_pass = "android"
-          EOF
+          printf '[gd_resource type="EditorSettings" format=3]\n[resource]\nexport/android/android_sdk_path = "%s"\nexport/android/java_sdk_path = "%s"\nexport/android/debug_keystore = "%s/.android/debug.keystore"\nexport/android/debug_keystore_user = "androiddebugkey"\nexport/android/debug_keystore_pass = "android"\n' "$ANDROID_HOME" "$JAVA_HOME" "$HOME" > ~/.config/godot/editor_settings-4.4.tres
       - name: Export APK
         run: |
           mkdir -p build
