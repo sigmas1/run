@@ -7,11 +7,27 @@ jobs:
       image: barichello/godot-ci:4.4.1
     steps:
       - uses: actions/checkout@v4
+      - name: Link Templates & Configure Android
+        run: |
+          mkdir -p /github/home/.local/share/godot /github/home/.config/godot /github/home/.android
+          cp -r /root/.local/share/godot/export_templates /github/home/.local/share/godot/
+          keytool -keyalg RSA -genkeypair -alias androiddebugkey -keypass android -keystore /github/home/.android/debug.keystore -storepass android -dname "CN=Android Debug,O=Android,C=US" -validity 9999
+          JPATH=$(dirname $(dirname $(readlink -f $(which java))))
+          SDKPATH=$(find / -maxdepth 3 -name "android-sdk*" 2>/dev/null | head -n 1)
+          cat <<EOF > /github/home/.config/godot/editor_settings-4.4.tres
+          [gd_resource type="EditorSettings" format=3]
+          [resource]
+          export/android/android_sdk_path = "$SDKPATH"
+          export/android/java_sdk_path = "$JPATH"
+          export/android/debug_keystore = "/github/home/.android/debug.keystore"
+          export/android/debug_keystore_user = "androiddebugkey"
+          export/android/debug_keystore_pass = "android"
+          EOF
       - name: Import & Export APK
         run: |
           mkdir -p build
           godot --headless --import --quit
-          godot --headless --verbose --export-debug "Android" build/RobRunnerMobile.apk
+          godot --headless --export-debug "Android" build/RobRunnerMobile.apk
       - uses: actions/upload-artifact@v4
         with:
           name: RobRunnerMobile-APK
