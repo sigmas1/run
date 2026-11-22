@@ -1,4 +1,4 @@
-﻿name: Build APK
+name: Build APK
 on: [push]
 jobs:
   build:
@@ -8,12 +8,35 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 17
+          java-version: '17'
       - uses: android-actions/setup-android@v3
-      - run: keytool -keyalg RSA -genkeypair -alias androiddebugkey -keypass android -keystore debug.keystore -storepass android -dname 'CN=Android Debug,O=Android,C=US' -validity 9999
-      - uses: firebelley/godot-export@v5.2.0
+      - name: Setup Godot
+        run: |
+          wget -q https://://github.com/Godot_v4.4-stable_linux.x86_64.zip
+          unzip -q Godot_v4.4-stable_linux.x86_64.zip
+          mv Godot_v4.4-stable_linux.x86_64 /usr/local/bin/godot
+          mkdir -p ~/.local/share/godot/export_templates/4.4.stable
+          wget -q https://://github.com/Godot_v4.4-stable_export_templates.tpz
+          unzip -q Godot_v4.4-stable_export_templates.tpz
+          mv templates/* ~/.local/share/godot/export_templates/4.4.stable/
+      - name: Configure Android SDK & Keystore
+        run: |
+          keytool -keyalg RSA -genkeypair -alias androiddebugkey -keypass android -keystore ~/.android/debug.keystore -storepass android -dname "CN=Android Debug,O=Android,C=US" -validity 9999
+          mkdir -p ~/.config/godot
+          cat <<EOF > ~/.config/godot/editor_settings-4.4.tres
+          [gd_resource type="EditorSettings" format=3]
+          [resource]
+          export/android/android_sdk_path = ""
+          export/android/java_sdk_path = ""
+          export/android/debug_keystore = "C:\Users\XxX/.android/debug.keystore"
+          export/android/debug_keystore_user = "androiddebugkey"
+          export/android/debug_keystore_pass = "android"
+          EOF
+      - name: Export APK
+        run: |
+          mkdir -p build
+          godot --headless --export-debug "Android" build/RobRunnerMobile.apk
+      - uses: actions/upload-artifact@v4
         with:
-          godot_executable_download_url: https://://github.com/Godot_v4.4-stable_linux.x86_64.zip
-          godot_export_templates_download_url: https://://github.com/Godot_v4.4-stable_export_templates.tpz
-          relative_project_path: ./
-          presets_to_export: Android
+          name: RobRunnerMobile-APK
+          path: build/RobRunnerMobile.apk
