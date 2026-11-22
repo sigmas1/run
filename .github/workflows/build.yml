@@ -1,5 +1,7 @@
 name: Build APK
 on: [push]
+permissions:
+  contents: write
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,8 +16,9 @@ jobs:
           mkdir -p /root/.android build
           rm -f /root/.android/debug.keystore
           keytool -keyalg RSA -genkeypair -alias androiddebugkey -keypass android -keystore /root/.android/debug.keystore -storepass android -dname "CN=Android Debug,O=Android,C=US" -validity 9999
-          godot --headless --verbose --export-debug "Android" build/RobRunnerMobile.apk
-      - uses: actions/upload-artifact@v4
+          godot --headless --export-debug "Android" build/RobRunnerMobile.apk
+      - uses: softprops/action-gh-release@v2
         with:
-          name: RobRunnerMobile-APK
-          path: build/RobRunnerMobile.apk
+          tag_name: v1.0
+          name: Rob Runner Mobile APK
+          files: build/RobRunnerMobile.apk
