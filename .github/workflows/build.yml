@@ -7,10 +7,11 @@ jobs:
       image: barichello/godot-ci:4.4.1
     steps:
       - uses: actions/checkout@v4
-      - name: Export APK
+      - name: Import & Export APK
         run: |
           mkdir -p build
-          godot --headless --export-debug "Android" build/RobRunnerMobile.apk
+          godot --headless --import --quit
+          godot --headless --verbose --export-debug "Android" build/RobRunnerMobile.apk
       - uses: actions/upload-artifact@v4
         with:
           name: RobRunnerMobile-APK
