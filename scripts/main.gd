@@ -73,7 +73,7 @@ func _process(delta: float) -> void:
 		spawn_distance = randf_range(19.0, 27.0)
 	cash_label.text = "$ %d" % (wallet + run_cash)
 	distance_label.text = "%dm" % int(run_distance)
-	police_label.text = "ПОЛИЦИЯ  %d%%" % int(police_pressure * 100.0)
+	police_label.text = "РџРћР›РР¦РРЇ  %d%%" % int(police_pressure * 100.0)
 	var pursuer: Node3D = get_meta("pursuer")
 	pursuer.position.x = move_toward(pursuer.position.x, LANES[player.lane], delta * 4.0)
 	if police_pressure >= 1.0:
@@ -268,14 +268,14 @@ func _build_ui() -> void:
 	root.add_child(top_bar)
 	cash_label = _label("$ 0", 29, Color(0.57, 1.0, 0.74))
 	distance_label = _label("0m", 27, Color.WHITE)
-	police_label = _label("ПОЛИЦИЯ  0%", 20, Color(1.0, 0.53, 0.39))
+	police_label = _label("РџРћР›РР¦РРЇ  0%", 20, Color(1.0, 0.53, 0.39))
 	cash_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	distance_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	police_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	top_bar.add_child(cash_label)
 	top_bar.add_child(distance_label)
 	top_bar.add_child(police_label)
-	pause_button = _button("Ⅱ", 24)
+	pause_button = _button("в…Ў", 24)
 	pause_button.custom_minimum_size = Vector2(70, 64)
 	pause_button.pressed.connect(_toggle_pause)
 	top_bar.add_child(pause_button)
@@ -308,20 +308,20 @@ func _build_ui() -> void:
 	overlay_title = _label("NIGHT RUN", 50, Color(0.95, 0.75, 0.35))
 	overlay_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	stack.add_child(overlay_title)
-	overlay_text = _label("Сорви куш и уходи от погони", 22, Color(0.78, 0.86, 0.94))
+	overlay_text = _label("РЎРѕСЂРІРё РєСѓС€ Рё СѓС…РѕРґРё РѕС‚ РїРѕРіРѕРЅРё", 22, Color(0.78, 0.86, 0.94))
 	overlay_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	overlay_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	stack.add_child(overlay_text)
-	primary_button = _button("ИГРАТЬ", 28)
+	primary_button = _button("РР“Р РђРўР¬", 28)
 	primary_button.pressed.connect(_on_primary_pressed)
 	stack.add_child(primary_button)
-	magnet_button = _button("МАГНИТ  •  50", 20)
+	magnet_button = _button("РњРђР“РќРРў  вЂў  50", 20)
 	magnet_button.pressed.connect(_buy_magnet)
 	stack.add_child(magnet_button)
-	loot_button = _button("МНОЖИТЕЛЬ ДОБЫЧИ  •  100", 20)
+	loot_button = _button("РњРќРћР–РРўР•Р›Р¬ Р”РћР‘Р«Р§Р  вЂў  100", 20)
 	loot_button.pressed.connect(_buy_loot)
 	stack.add_child(loot_button)
-	var controls := _label("Свайп ← →: полоса     ↑ / ПРОБЕЛ: прыжок     ↓ / S: подкат", 17, Color(0.58, 0.69, 0.79))
+	var controls := _label("РЎРІР°Р№Рї в†ђ в†’: РїРѕР»РѕСЃР°     в†‘ / РџР РћР‘Р•Р›: РїСЂС‹Р¶РѕРє     в†“ / S: РїРѕРґРєР°С‚", 17, Color(0.58, 0.69, 0.79))
 	controls.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	controls.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	stack.add_child(controls)
@@ -333,8 +333,8 @@ func _show_menu() -> void:
 	top_bar.visible = false
 	overlay.visible = true
 	overlay_title.text = "NIGHT RUN"
-	overlay_text.text = "Сорви куш и уходи от погони\nБаланс: $%d" % wallet
-	primary_button.text = "ИГРАТЬ"
+	overlay_text.text = "РЎРѕСЂРІРё РєСѓС€ Рё СѓС…РѕРґРё РѕС‚ РїРѕРіРѕРЅРё\nР‘Р°Р»Р°РЅСЃ: $%d" % wallet
+	primary_button.text = "РР“Р РђРўР¬"
 	_update_upgrade_text()
 
 func _start_run() -> void:
@@ -361,9 +361,9 @@ func _end_run(arrested: bool) -> void:
 	_save_progress()
 	top_bar.visible = false
 	overlay.visible = true
-	overlay_title.text = "АРЕСТ" if arrested else "ПОГОНЯ"
-	overlay_text.text = "Дистанция: %d м\nДобыча: $%d\nБаланс: $%d" % [int(run_distance), run_cash, wallet]
-	primary_button.text = "ЕЩЁ РАЗ"
+	overlay_title.text = "РђР Р•РЎРў" if arrested else "РџРћР“РћРќРЇ"
+	overlay_text.text = "Р”РёСЃС‚Р°РЅС†РёСЏ: %d Рј\nР”РѕР±С‹С‡Р°: $%d\nР‘Р°Р»Р°РЅСЃ: $%d" % [int(run_distance), run_cash, wallet]
+	primary_button.text = "Р•Р©РЃ Р РђР—"
 	_update_upgrade_text()
 
 func _toggle_pause() -> void:
@@ -371,9 +371,9 @@ func _toggle_pause() -> void:
 		state = "paused"
 		player.active = false
 		overlay.visible = true
-		overlay_title.text = "ПАУЗА"
-		overlay_text.text = "Передышка в погоне"
-		primary_button.text = "ПРОДОЛЖИТЬ"
+		overlay_title.text = "РџРђРЈР—Рђ"
+		overlay_text.text = "РџРµСЂРµРґС‹С€РєР° РІ РїРѕРіРѕРЅРµ"
+		primary_button.text = "РџР РћР”РћР›Р–РРўР¬"
 	elif state == "paused":
 		_resume_run()
 
@@ -391,31 +391,31 @@ func _resume_run() -> void:
 func _buy_magnet() -> void:
 	var price := 50 + magnet_upgrade * 50
 	if wallet < price:
-		overlay_text.text = "Не хватает $%d. Баланс: $%d" % [price - wallet, wallet]
+		overlay_text.text = "РќРµ С…РІР°С‚Р°РµС‚ $%d. Р‘Р°Р»Р°РЅСЃ: $%d" % [price - wallet, wallet]
 		return
 	wallet -= price
 	magnet_upgrade += 1
 	_save_progress()
 	_update_upgrade_text()
 	if state == "menu":
-		overlay_text.text = "Улучшение куплено! Баланс: $%d" % wallet
+		overlay_text.text = "РЈР»СѓС‡С€РµРЅРёРµ РєСѓРїР»РµРЅРѕ! Р‘Р°Р»Р°РЅСЃ: $%d" % wallet
 
 func _buy_loot() -> void:
 	var price := 100 + loot_upgrade * 100
 	if wallet < price:
-		overlay_text.text = "Не хватает $%d. Баланс: $%d" % [price - wallet, wallet]
+		overlay_text.text = "РќРµ С…РІР°С‚Р°РµС‚ $%d. Р‘Р°Р»Р°РЅСЃ: $%d" % [price - wallet, wallet]
 		return
 	wallet -= price
 	loot_upgrade += 1
 	_save_progress()
 	_update_upgrade_text()
 	if state == "menu":
-		overlay_text.text = "Улучшение куплено! Баланс: $%d" % wallet
+		overlay_text.text = "РЈР»СѓС‡С€РµРЅРёРµ РєСѓРїР»РµРЅРѕ! Р‘Р°Р»Р°РЅСЃ: $%d" % wallet
 
 func _update_upgrade_text() -> void:
 	if magnet_button != null:
-		magnet_button.text = "МАГНИТ %dс  •  $%d" % [8 + magnet_upgrade * 4, 50 + magnet_upgrade * 50]
-		loot_button.text = "МНОЖИТЕЛЬ x%d  •  $%d" % [1 + loot_upgrade, 100 + loot_upgrade * 100]
+		magnet_button.text = "РњРђР“РќРРў %dСЃ  вЂў  $%d" % [8 + magnet_upgrade * 4, 50 + magnet_upgrade * 50]
+		loot_button.text = "РњРќРћР–РРўР•Р›Р¬ x%d  вЂў  $%d" % [1 + loot_upgrade, 100 + loot_upgrade * 100]
 
 func _load_save() -> void:
 	if save.load("user://save.cfg") == OK:
